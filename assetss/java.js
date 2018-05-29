@@ -15,9 +15,9 @@ $(document).ready(function () {
         var results = response.data;
         console.log(response);
         for (var i = 0; i < results.length; i++) {
-
+            
         }
-       
+        
     })
 
 });
