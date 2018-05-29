@@ -2,45 +2,43 @@ window.onload = function () {
 
 
     $("button").on("click", function () {
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=mw1M74p3rCgI8Gba5Do2weVhEa6B62uH&q=animals&limit=25&offset=0&rating=G&lang=en"
+        var animalName = $(this).data("name");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=mw1M74p3rCgI8Gba5Do2weVhEa6B62uH&q=" + animalName + "&limit=10";
+                         
 
-        var animals = $(this).data("name");
         $.ajax({
             url: queryURL,
             method: 'GET'
-        });
-
-        //get API
-
-        $.get(queryURL).done(function (response) {
+        }).then(function (response) {
             var results = response.data;
-            console.log(response);
+            
+            var resultsDiv = $("<div>");
+
             for (var i = 0; i < results.length; i++) {
-                var animal = $("<div/>");
 
-                var p = $("<p/>");
+                var gifRating = $("<p>");
+                var animalGif = $("<img>");
 
-                var animalGif = $("<img/>");
+                gifRating.text(results[i].rating);
 
-                p.text(results[i].rating);
+                animalGif.addClass("animalGif");
 
-                animalGif.addClass("");
+                animalGif.attr("src", results[i].images.original_still.url);
 
-                animalGif.attr("src", results[i].images);
+                animalGif.data("still", results[i].images.original_still.url);
 
-                animalGif.attr("data-still", results[i].images);
+                animalGif.data("animate", results[i].images.looping.mp4);
 
-                animalGif.attr("data-animate", results[i].images);
+                animalGif.data("state", 'still');
 
-                animal.append(p);
+                resultsDiv.append(gifRating);
+                resultsDiv.append(animalGif);
 
-                animal.append(animalGif);
-
-                animal.prependTo($('#gifs'));
+                $('#gifs').append(resultsDiv);
                 
             }
 
-            $('.anImg').on('click', function() {
+            $('.animalGif').on('click', function() {
             
                 var state = $(this).attr('data-state'); 
                 console.log(this);
