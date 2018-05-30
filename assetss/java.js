@@ -2,9 +2,11 @@ window.onload = function () {
 
 
     $("button").on("click", function () {
-        var animalName = $(this).data("name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=mw1M74p3rCgI8Gba5Do2weVhEa6B62uH&q=" + animalName + "&limit=10";
-                         
+        //detect the button that was clicked to know which animal to look for
+        var animalName = $(this)["0"].innerText;
+        //insert in URL
+        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=mw1M74p3rCgI8Gba5Do2weVhEa6B62uH&q=" + animalName + "&limit=3";
+        //TODO: Add input (parseInt the .val()) to know how many GIFs to bring
 
         $.ajax({
             url: queryURL,
@@ -22,12 +24,16 @@ window.onload = function () {
                 gifRating.text(results[i].rating);
 
                 animalGif.addClass("animalGif");
+                // "src": results[i].images.fixed_height.url,
+                //    "data-still": results[i].images.fixed_height_still.url,
+                //    "data-animate": results[i].images.fixed_height.url,
+                //    "data-state": "animate"
 
-                animalGif.attr("src", results[i].images.original_still.url);
+                animalGif.attr("src", results[i].images.fixed_height.url);
 
-                animalGif.data("still", results[i].images.original_still.url);
+                animalGif.data("still", results[i].images.fixed_height_still.url);
 
-                animalGif.data("animate", results[i].images.looping.mp4);
+                animalGif.data("animate", results[i].images.fixed_height.url);
 
                 animalGif.data("state", 'still');
 
